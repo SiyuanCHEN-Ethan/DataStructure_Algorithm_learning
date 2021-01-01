@@ -28,7 +28,7 @@ public:
 	SqList(int init_size, ElemType init_elem)
 	{
 		elem = new ElemType[init_size];
-		length = init_size;
+		length = init_size;  
 		ListSize = init_size;
 
 		for (int i = 0; i < length; i++)
@@ -44,7 +44,7 @@ public:
 	}
 
 	void ClearList(); //将线性表置空
-
+	
 	bool ListIsEmpty();
 
 	ElemType GetElem(int i); //返回线性表中元素的值
@@ -75,7 +75,7 @@ bool SqList<ElemType>::ListIsEmpty()
 {
 	if (!elem)
 		return true;
-	else if (length == 0)
+	else if length == 0
 		return true;
 	else
 		return false;
@@ -98,8 +98,7 @@ int SqList<ElemType>::ListLength()
 template<typename ElemType>
 int SqList<ElemType>::LocateElem(ElemType e)
 {
-	int i;
-	for (i=0; i != length; i++)
+	for (int i = 0; i != length; i++)
 	{
 		if (elem[i] == e)
 			return i + 1;
@@ -139,10 +138,10 @@ ElemType SqList<ElemType>::ListDelete(int i)
 	for (++p; p <= q; ++p)
 		*(p - 1) = *p;
 	--length;
-}
+} 
 
 
-//写一个测试程序
+//写一个测试程序,2021/1/1测试成功
 void test01()
 {
 	struct ElemType
@@ -150,7 +149,7 @@ void test01()
 		int m_Age;
 		char m_Name;
 	};
-	ElemType elem1, elem2;
+	ElemType elem1,elem2;
 	elem1.m_Age = 20;
 	elem1.m_Name = 'c';
 
