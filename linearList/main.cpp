@@ -1,168 +1,282 @@
 #include <iostream>
 using namespace std;
 
-const int LIST_INIT_SIZE = 100; //初始分配量
-const int LISTINCREMENT = 10; //线性表存储空间的分配增量
 
-template<typename ElemType>
-class SqList
+//单链表的结点定义
+template<class T>
+struct LinkNode
 {
-private:
-	ElemType* elem; //存储空间基地址
-	int length;		//当前长度
-	int ListSize; //当前分配的存储容量，以sizeof(ElemType)为单位
-
-public:
-	SqList()
+	T data;
+	LinkNode<T>* next;
+	LinkNode(LinkNode<T>* ptr = NULL) { next = ptr; }//！这边使用struct构造结构体的方式不太熟悉
+	LinkNode(const T& item, LinkNode<T>* ptr = NULL)
 	{
-		elem = new ElemType[LIST_INIT_SIZE];
-		length = 0;
-		ListSize = LIST_INIT_SIZE;
+		next = ptr;
+		data = item;
 	}
-	SqList(int init_size)
-	{
-		elem = new ElemType[init_size];
-		length = 0;  //length 是否暂时仍应该为0呢
-		ListSize = init_size;
-	}
-	SqList(int init_size, ElemType init_elem)
-	{
-		elem = new ElemType[init_size];
-		length = init_size;
-		ListSize = init_size;
-
-		for (int i = 0; i < length; i++)
-		{
-			elem[i] = init_elem;
-		}
-	}
-	~SqList()
-	{
-		length = 0;
-		ListSize = 0;
-		delete[] elem;
-	}
-
-	void ClearList(); //将线性表置空
-
-	bool ListIsEmpty();
-
-	ElemType GetElem(int i); //返回线性表中元素的值
-
-	int ListLength();
-
-	//判断线性表中第一个与e相等的数据元素的位序，如果不存在则返回-1
-	int LocateElem(ElemType e);
-
-	// 在线性表中第i个位置之前插入新的数据元素e，线性表的长度加1，i<=i<=length
-	void ListInsert(int i, ElemType e);
-
-	//在顺序线性表中删除第i个元素，i的合法值为1<=i<=length,返回值为该元素的值
-	ElemType ListDelete(int i);
 
 };
 
-template<typename ElemType>
-void SqList<ElemType>::ClearList()
+//带头节点的单链表定义
+template<class T>
+class LinkList
 {
-	for (int i = 0; i != length; i++)
-	{
-		elem[i] = NULL;
-	}
+private:
+	LinkNode<T>* head;
+public:
+	//无参构造函数
+	LinkList() { head = new LinkNode<T>; }
+
+	//带参构造函数
+	LinkList(const T& item) { head = new LinkNode<T>(item); }
+
+	//拷贝构造函数
+	LinkList(LinkList<T>& List);
+
+	//析构函数
+	~LinkList() { Clear(); }
+
+	//重载函数:赋值
+	LinkList<T>& operator=(LinkList<T>& List) { this->head = List->head; }
+
+	//链表清空
+	void Clear();
+
+	//获取链表长度
+	int Length() const;
+
+	//获取链表头节点
+	LinkNode<T>* GetHead() const { return this->head; }
+
+	//设置链表头结点
+	void SetHead(LinkNode<T>* p) { this->head = p; }
+
+	//查找数据的位置，返回第一个找到的满足该数值的结点指针
+	LinkNode<T>* Find(T& item);
+
+
+	/* 定位位置：返回链表中第pos个元素的地址，如果pos<0或pos超出链表最大个数返回NULL */
+	LinkNode<T>* Locate(int pos);
+
+	//在指定位置pos插入值为item的结点，失败返回flase
+	bool Insert(T& item, int pos);
+
+	//删除指定位置pos上的结点 item就是该结点存放的数据，失败返回false
+	bool Remove(int pos, T& item);
+
+	//获取指定位置pos的结点的值(如果单纯是返回值，不对其进行赋值的话，不应该用
+	//引用作为返回值，直接T类型，进行值拷贝应该就好)
+	T GetData(int pos) { return Locate(pos)->data; }
+
+	//设置指定pos位置节点的值,有问题就返回false
+	bool SetData(int pos, T& item) { Locate(pos)->data = item; }
+
+	//查询链表是否为空
+	bool IsEmpty() const;
+
+	//打印链表
+	void PrintList() const;
+
+	//交换链表节点位置
+	void Swap(LinkNode<T>* m, LinkNode<T>* n); //方便实现排序以及逆置
+
+	//链表排序
+	void SortList();
+
+	//链表逆置
+	//void ReverseList();
+
+
+};
+
+//拷贝构造函数
+template<class T>
+LinkList<T>::LinkList(LinkList<T>& List)
+{
+	this->head = List.head;
 }
-template<typename ElemType>
-bool SqList<ElemType>::ListIsEmpty()
+
+//获取链表长度
+template<class T>
+int LinkList<T>::Length() const
 {
-	if (!elem)
-		return true;
-	else if (length == 0)
+	int count = 0;
+	LinkNode<T>* p = head->next;
+	while (NULL != p)
+	{
+		p = p->next;
+		++count;
+	}
+	return count;
+}
+
+//打印链表
+template<class T>
+void LinkList<T>::PrintList() const
+{
+	int count = 0;
+	LinkNode<T>* p = head;
+
+	while (NULL != p)
+	{
+		p = p->next;
+		cout << p->data << " ";
+		++count;
+		if (count % 10 == 0)
+			cout << endl;
+	}
+
+}
+/* 定位位置：返回链表中第pos个元素的地址，如果pos<0或pos超出链表最大个数返回NULL */
+template<class T>
+LinkNode<T>* LinkList<T>::Locate(int pos)
+{
+	int i = 0;
+	LinkNode<T>* p = head;
+
+	if (pos < 0)
+		return NULL;
+
+	while (NULL != p && i < pos)
+	{
+		p = p->next;
+		++i;
+	}
+	return p;
+}
+
+//在指定位置pos插入值为item的结点，失败返回flase
+template<class T>
+bool LinkList<T>::Insert(T& item, int pos)
+{
+	LinkNode<T>* p = Locate(pos);
+	if (NULL == p)
+		return false;
+
+	LinkNode<T>* node = new LinkNode<T>(item);
+	if (NULL == node)
+	{
+		cout << "分配内存失败" << endl;
+		exit(1);
+	}
+	node->next = p->next;
+	p->next = node;
+	return true;
+
+}
+
+//删除指定位置pos上的结点 item就是该结点存放的数据，失败返回false
+template<class T>
+bool LinkList<T>::Remove(int pos, T& item)
+{
+	LinkNode<T>* p = Locate(pos + 1);//如果想删掉第二个元素，是否应该定位到第一个元素的节点地址呢？（或者通过遍历求出上一个节点的地址）
+	if (NULL = p || NULL = p->next) //猜想这里应该是按添加了尾结点的做法来进行筛选的
+		return false;
+
+	LinkNode<T>* del = p->next;
+	p->next = del->next;
+	item = del->data; //！这里就不是很明白了,难道是等于等效设置了两个出口，一个bool 一个实参T&
+
+	delete del;
+	return true;
+
+
+
+}
+
+//链表清空：从头节点开始遍历链表，每次访问到下一个节点的时候，都删除上一个节点的地址
+template<class T>
+void LinkList<T>::Clear()
+{
+	LinkNode<T>* p = NULL;
+	while (NULL != head->next)
+	{
+		p = head->next;
+		head->next = p->next;
+		delete p;
+	}
+
+}
+
+
+//查找数据的位置，返回第一个找到的满足该数值的结点指针
+template<class T>
+LinkNode<T>* LinkList<T>::Find(T& item)
+{
+	int flag = 0; //找到时标记为1
+	LinkNode<T>* p = head;
+	while (NULL != p->next && flag == 0)
+	{
+		p = p->next;
+		if (p->data == item) //调用的时候类要允许 == 运算符
+			flag = 1;
+	}
+	return p;
+}
+
+//查询链表是否为空
+template<class T>
+bool LinkList<T>::IsEmpty() const
+{
+	if (NULL == head->next)
 		return true;
 	else
 		return false;
 }
 
-template<typename ElemType>
-ElemType SqList<ElemType>::GetElem(int i)//返回线性表中元素的值
+//链表内两元素交换位置,只交换data即可
+template<class T >
+void LinkList<T>::Swap(LinkNode<T>* m, LinkNode<T>* n)
 {
-	return elem[i - 1];
+	T temp;
+	temp = m->data;
+	m->data = n->data;
+	n->data = temp;
 }
 
-//获取线性表长度
-template<typename ElemType>
-int SqList<ElemType>::ListLength()
+//链表排序
+template<class T>
+void LinkList<T>::SortList() //这里采用冒泡排序，从小到大
 {
-	return length;
-}
+	LinkNode<T>* p = head->next; //需要经历两轮遍历
+	LinkNode<T>* q = p->next;
 
-//判断线性表中第一个与e相等的数据元素的位序，如果不存在则返回-1
-template<typename ElemType>
-int SqList<ElemType>::LocateElem(ElemType e)
-{
-	int i;
-	for (i=0; i != length; i++)
+	if (p->data > q->data) //小于的话 不改变，所以是稳定的
+		swap(p, q); //交换T类型元素值,不改指针
+
+	while (NULL != p && NULL != p->next) //这种是默认有尾结点的做法
 	{
-		if (elem[i] == e)
-			return i + 1;
+		q = p->next;
+
+		while (NULL != q && NULL != q->next)
+		{
+			if (q->data > q->next->data) //小于的话 不改变，所以是稳定的
+				swap(q, q->next); //交换T类型元素值
+			q = q->next;
+		}
+		p = p->next;
 	}
-	if (i == length)
-		return -1;
-}
-
-// 在线性表中第i个位置之前插入新的数据元素e，线性表的长度加1，i<=i<=length
-template<typename ElemType>
-void SqList<ElemType>::ListInsert(int i, ElemType e)
-{
-	if (i < 1 || i > length + 1)
-		return; //i值不合法
-	if (length >= ListSize) // 当前存储空间已满，增加分配
-	{
-		ElemType* newbase = new ElemType[ListSize + LISTINCREMENT];
-		elem = newbase;
-		ListSize += LISTINCREMENT;
-	}
-
-	ElemType* q = &elem[i - 1];
-	for (ElemType* p = &elem[length - 1]; p >= q; --p)
-		*(p + 1) = *p;
-	*q = e;
-	++length;
-}
-
-//在顺序线性表中删除第i个元素，i的合法值为1<=i<=length,返回值为该元素的值
-template<typename ElemType>
-ElemType SqList<ElemType>::ListDelete(int i)
-{
-	if (i < 1 || i > length + 1)
-		return; //i值不合法
-	ElemType* p = &elem[i - 1];
-	ElemType* q = &elem[length - 1];
-	for (++p; p <= q; ++p)
-		*(p - 1) = *p;
-	--length;
 }
 
 
 //写一个测试程序
 void test01()
 {
-	struct ElemType
-	{
-		int m_Age;
-		char m_Name;
-	};
-	ElemType elem1, elem2;
-	elem1.m_Age = 20;
-	elem1.m_Name = 'c';
+	LinkList<int> list1;
+	int length1 = list1.Length();
+	cout << length1 << endl;
+	int a = 5;
+	list1.Insert(a, 0);
+	int length2 = list1.Length();
+	int b = 3;
+	list1.Insert(b, 1);
+	int length3 = list1.Length();
+	cout << length3 << endl;
+	list1.PrintList();
+	
 
-	elem2.m_Age = 22;
-	elem2.m_Name = 'g';
-
-	SqList<ElemType> m_SqList(10);
-	m_SqList.ListInsert(1, elem1);
-	m_SqList.ListInsert(2, elem2);
-
-	ElemType elem3 = m_SqList.GetElem(2);
-	cout << elem3.m_Age << " " << elem3.m_Name << endl;
+	list1.SortList(); //没办法进行排序
+	list1.PrintList();
 
 }
 
@@ -171,6 +285,7 @@ void test01()
 int main()
 {
 	test01();
+
 
 	system("pause");
 	return 0;
