@@ -27,5 +27,13 @@
     <ClCompile Include="SingleLinkedList.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DoubleLinkTest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DoubleLink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
