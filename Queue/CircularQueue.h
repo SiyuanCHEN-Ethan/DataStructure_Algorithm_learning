@@ -27,7 +27,7 @@ class CircularQueue
 {
 public:
 	Status InitQueue();
-	int QueueLength();
+	
 	Status DestroyQueue();		//销毁队列
 	Status ClearQueue();			//清空队列
 	bool QueueEmpty();			//队列是否为空

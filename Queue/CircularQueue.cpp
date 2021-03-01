@@ -68,7 +68,7 @@ QElemType CircularQueue::GetHead()
 	if (Q.front == Q.rear)
 	{
 		cout << "╤сапн╙©у" << endl;
-		return;
+		return -1;
 	}
 
 	return Q.base[Q.front];
