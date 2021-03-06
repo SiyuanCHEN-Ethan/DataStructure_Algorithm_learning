@@ -1,6 +1,6 @@
 #include "BinaryTree.h"
 #include "cirqueue.h"
-#include "BinaryTree.cpp"
+#include "BinaryTree.hpp"
 using namespace std;
 
 

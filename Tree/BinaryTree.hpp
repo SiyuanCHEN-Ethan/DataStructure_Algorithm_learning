@@ -5,7 +5,7 @@
 using namespace std;
 
 template<class T>
-BiNode<T>* BinaryTree<T>::Create(BiNode<T>* bt)  //设计到递归 这样的，不用内联好不好
+BiNode<T>* BinaryTree<T>::Create(BiNode<T>* bt)  //涉及到递归 这样的，不用内联好不好
 {
 	T ch;
 	cin >> ch;
