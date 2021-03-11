@@ -36,6 +36,9 @@
     <ClCompile Include="TestHuffman.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TestBSTree.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BinaryTree.h">
@@ -54,6 +57,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MinHeap.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="BStree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="AVLTree.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RBTNode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RBTree.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
