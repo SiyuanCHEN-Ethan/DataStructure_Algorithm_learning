@@ -141,10 +141,7 @@
     <ClCompile Include="BinaryTree.hpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="TestBSTree.cpp" />
-    <ClCompile Include="TestHuffman.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="TestHuffman.cpp" />
     <ClCompile Include="MaxHeap.hpp" />
     <ClCompile Include="myMinHeap.hpp" />
     <ClCompile Include="TestBinaryTree.cpp">
@@ -158,15 +155,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AVLTree.h" />
     <ClInclude Include="BinaryTree.h" />
-    <ClInclude Include="BStree.h" />
     <ClInclude Include="cirqueue.h" />
     <ClInclude Include="Huffman.hpp" />
     <ClInclude Include="HuffmanNode.h" />
     <ClInclude Include="MinHeap.hpp" />
-    <ClInclude Include="RBTNode.h" />
-    <ClInclude Include="RBTree.h" />
     <ClInclude Include="ThreadBinaryTree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

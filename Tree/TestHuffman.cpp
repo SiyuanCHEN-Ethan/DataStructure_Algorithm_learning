@@ -8,7 +8,7 @@
 /*
 * 出现问题 2021/03/06 编译无法通过，因为Huffman::create(int[],int)其中出现了未初始化的本地指针变量parent
 */
-#include<vector>
+
 #include <iostream>
 #include "Huffman.hpp"
 using namespace std;

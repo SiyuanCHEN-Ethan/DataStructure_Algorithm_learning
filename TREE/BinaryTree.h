@@ -1,4 +1,4 @@
-//https://www.cnblogs.com/smile233/p/8145760.html
+https://www.cnblogs.com/smile233/p/8145760.html
 #pragma once
 
 #include <iostream>'
@@ -23,10 +23,9 @@ public:
 	void PreOrder() { PreOrder(root); }      // 递归前序遍历二叉树
 	void InOrder() { InOrder(root); }        // 递归中序遍历二叉树
 	void PostOrder() { PostOrder(root); }    // 递归后序遍历二叉树
-	
-											 //以上做法，是为了封装的更好？
+	//以上做法，是为了封装的更好？
 	//差一个层序遍历
-	void LeverOrder();
+
 
 private:
 	BiNode<T>* root;
