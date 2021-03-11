@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{132B70EF-13E6-45FC-874E-5F84907855A9}</ProjectGuid>
-    <RootNamespace>Tree</RootNamespace>
+    <ProjectGuid>{63E348C7-4BA3-4B9C-AFE6-780E7FDFF125}</ProjectGuid>
+    <RootNamespace>graph</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -138,36 +138,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BinaryTree.hpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="TestBSTree.cpp" />
-    <ClCompile Include="TestHuffman.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="MaxHeap.hpp" />
-    <ClCompile Include="myMinHeap.hpp" />
-    <ClCompile Include="TestBinaryTree.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="TestMinHeap.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="TestThreadBinaryTree.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AVLTree.h" />
-    <ClInclude Include="BinaryTree.h" />
-    <ClInclude Include="BStree.h" />
-    <ClInclude Include="cirqueue.h" />
-    <ClInclude Include="Huffman.hpp" />
-    <ClInclude Include="HuffmanNode.h" />
-    <ClInclude Include="MinHeap.hpp" />
-    <ClInclude Include="RBTNode.h" />
-    <ClInclude Include="RBTree.h" />
-    <ClInclude Include="ThreadBinaryTree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
